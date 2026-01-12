@@ -1,0 +1,18 @@
+[user]
+	name = Benny Tsai
+	email = bennytsai0711@gmail.com
+[init]
+	defaultBranch = main
+[core]
+	editor = code --wait
+[color]
+	ui = auto
+[alias]
+	st = status
+	co = checkout
+	ci = commit
+	br = branch
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	cp = cherry-pick
+	df = diff
+	unstage = reset HEAD --
