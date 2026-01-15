@@ -18,6 +18,25 @@
 - **🇹🇼 台灣在地化**：自動切換至 `tw.archive.ubuntu.com` 加速下載。
 
 ---
+ 以下是重灌 WSL2 並使用您的 dotfiles 還原環境的步驟：
+
+  第一步：在 Windows 側重灌 WSL2 (PowerShell)
+
+  請在 Windows 打開 PowerShell (以管理員身分)，執行以下指令：
+
+   1. 查看目前的 Distro 名稱：
+   1     wsl -l -v
+      (假設您的名稱是 `Ubuntu`)
+
+   2. 註銷 (刪除) 現有的系統：
+   1     wsl --unregister Ubuntu
+
+   3. 重新安裝：
+   1     wsl --install -d Ubuntu
+      安裝完成後，設定好您的使用者名稱 (benny) 和密碼。
+
+  ---
+
 
 ## ⚡ 快速開始 (如何在 WSL2 上還原)
 
