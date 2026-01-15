@@ -1,18 +1,21 @@
-# 🚀 Linux God Mode Dotfiles (WSL2 Developer Edition)
+# 🚀 Linux God Mode Dotfiles (WSL2 Pure Terminal Edition)
 
-這是專為 **Windows Subsystem for Linux (WSL2 - Ubuntu 24.04+)** 開發者設計的 **全自動環境管理系統**。特別針對 **AGV/機器人開發** 進行了深度優化，移除了所有遊戲與硬體驅動冗餘，保留最純粹的高效開發環境。
+這是專為 **Windows Subsystem for Linux (WSL2 - Ubuntu 24.04+)** 開發者設計的 **極簡、純文字 (CLI-Only) 開發環境**。
 
-## ✨ 特色
+我們移除了所有的圖形介面 (GUI)、Snap 套件、遊戲驅動與肥大軟體，只保留最高效的開發工具。這套配置保證了極致的啟動速度與最小的磁碟佔用。
 
+## ✨ 特色 (Pure Terminal)
+
+- **🚫 零 GUI 依賴**：完全移除 X11, GNOME, Qt, GTK 等圖形庫。
+- **🚫 零 Snap**：僅使用 APT 與原生二進位檔，避免 Snap 的效能損耗與空間浪費。
 - **🪟 WSL2 深度整合**：
-    - 自動偵測環境，跳過不相容的桌面設定 (GNOME) 還原。
     - 內建 `open .` 指令，直接呼叫 Windows 檔案總管開啟當前目錄。
     - 預設啟用圖示支援 (搭配 Windows Terminal + Nerd Font)。
-- **⚡ 極速開發環境**：
-    - **純淨化**：移除 32 位元架構、遊戲驅動 (Lutris/Nvidia) 與肥大軟體 (LibreOffice)，節省數 GB 空間。
-    - **自動化**：一鍵安裝 Zsh, Powerlevel10k, Node.js, Python, C++ Build Tools。
+- **⚡ 極速開發工具**：
+    - **Shell**: Zsh + Powerlevel10k + Auto Suggestions。
+    - **Modern CLI**: `lsd` (取代 ls), `batcat` (取代 cat), `btop` (取代 top), `ripgrep`, `fd-find`。
+    - **Dev Stack**: GCC/G++, CMake, Python3, Node.js, OpenJDK 17。
 - **🇹🇼 台灣在地化**：自動切換至 `tw.archive.ubuntu.com` 加速下載。
-- **🤖 Gemini 整合**：內建 C++ (AGV/Robotics) 面試衝刺學習清單。
 
 ---
 
@@ -30,7 +33,7 @@ sudo apt update && sudo apt install -y git stow
 git clone https://github.com/bennytsai1234/linux-dotfiles.git $HOME/dotfiles
 ```
 
-### 3. 一鍵還原 (God Mode)
+### 3. 一鍵還原
 ```bash
 cd $HOME/dotfiles
 chmod +x install.sh
@@ -40,8 +43,7 @@ chmod +x install.sh
 1. 設定 Sudo 免密碼與台灣軟體源。
 2. 安裝 Oh My Zsh 與 Powerlevel10k 主題。
 3. 連結設定檔 (Zsh, Git, VS Code, Gemini)。
-4. 安裝精簡版開發軟體 (Git, CMake, Node.js, Python, Rippergrep, FZF...)。
-5. (WSL 模式) 自動跳過桌面環境還原，避免錯誤。
+4. 安裝精簡版開發軟體。
 
 ---
 
@@ -65,8 +67,9 @@ chmod +x install.sh
 
 ```
 dotfiles/
-├── install.sh          # 核心還原腳本 (含 WSL 偵測)
-├── packages/           # 精簡後的軟體清單 (無 Bloatware)
+├── install.sh          # 核心還原腳本 (Pure CLI)
+├── packages/
+│   └── apt-list.txt    # 精簡後的軟體清單 (無 Snap/GUI)
 ├── vscode/             # VS Code 全端開發擴充 (C++, Python, Web)
 ├── zsh/                # .zshrc (含 WSL 整合)
 ├── git/                # .gitconfig (含中文路徑修正)
