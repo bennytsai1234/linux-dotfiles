@@ -1,18 +1,30 @@
 [user]
-	name = Benny Tsai
-	email = bennytsai0711@gmail.com
+        name = Benny Tsai
+        email = bennytsai0711@gmail.com
 [init]
-	defaultBranch = main
+        defaultBranch = main
 [core]
-	editor = code --wait
+        editor = code --wait
+        autocrlf = input
 [color]
-	ui = auto
+        ui = auto
+[credential]
+        helper = store
+[pull]
+        rebase = false
+[push]
+        autoSetupRemote = true
 [alias]
-	st = status
-	co = checkout
-	ci = commit
-	br = branch
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	cp = cherry-pick
-	df = diff
-	unstage = reset HEAD --
+        st = status
+        co = checkout
+        ci = commit
+        br = branch
+        lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+        cp = cherry-pick
+        df = diff
+        unstage = reset HEAD --
+        s = status
+        d = diff
+        c = commit
+        p = push
+        l = log --oneline

@@ -1,78 +1,90 @@
 # 🚀 Linux God Mode Dotfiles (系統自動化備份與還原)
 
-這是專為 Linux (Ubuntu/Debian) 開發者設計的 **全自動環境管理系統**。它不只是備份 Dotfiles，更能深度還原系統軟體、VS Code 配置、GNOME 桌面設定以及開發環境。
+這是專為 Linux (Ubuntu 24.04+) 開發者設計的 **全自動環境管理系統**。特別針對 **AGV/機器人開發** 進行了優化，內建台灣軟體源加速、Gemini CLI 整合以及現代化的 Zsh 環境。
+
+## ✨ 特色
+
+- **🇹🇼 台灣在地化**：自動切換至 `tw.archive.ubuntu.com`，下載速度飛快。
+- **🤖 Gemini 整合**：內建 Gemini CLI 設定與面試學習清單 (Traditional Chinese)。
+- **⚡ 極速還原**：一鍵安裝 APT/Snap 軟體、還原 GNOME 設定、VS Code 外掛。
+- **🐚 終端機美化**：預設啟用 Zsh + Powerlevel10k + Auto Suggestions + Syntax Highlighting。
+- **🔧 開發者友善**：預設 Git Alias、Sudo 免密碼、AGV 專案快速導航。
 
 ---
 
 ## ⚡ 快速開始 (如何在「新電腦」上還原)
 
-當你拿到一台剛重灌好的 Linux 電腦，只需執行以下步驟，即可恢復 95% 的工作環境。
+當你拿到一台剛重灌好的 Linux 電腦，只需執行以下步驟：
 
 ### 1. 安裝基礎工具
-新電腦通常需要 Git 與 Stow，請先打開終端機執行：
+新電腦通常需要 Git 與 Stow：
 ```bash
 sudo apt update && sudo apt install -y git stow
 ```
 
 ### 2. 下載備份
-將倉庫複製到你的使用者目錄：
 ```bash
 git clone https://github.com/bennytsai1234/linux-dotfiles.git $HOME/dotfiles
 ```
 
 ### 3. 一鍵還原 (God Mode)
-進入目錄並執行還原腳本：
 ```bash
 cd $HOME/dotfiles
 chmod +x install.sh
 ./install.sh
 ```
-**注意：** 腳本執行過程中會詢問是否安裝軟體清單以及覆蓋桌面設定，請根據需求輸入 `y`。
+**腳本將自動執行以下動作：**
+1. 設定 Sudo 免密碼與台灣軟體源。
+2. 安裝 Oh My Zsh 與 Powerlevel10k 主題。
+3. 使用 Stow 連結設定檔 (.zshrc, .gitconfig, .gemini 等)。
+4. 安裝常用的開發軟體 (Build-essential, CMake, VS Code 等)。
+5. 還原 VS Code 外掛與 GNOME 桌面設定。
 
 ---
 
-## 🔄 日常維護 (如何更新備份)
+## ⌨️ 常用指令與別名 (Aliases)
 
-當你安裝了新軟體、修改了 Zsh 設定或 VS Code 配置，想要更新備份時：
+安裝後，您可以使用以下縮寫來加速開發：
 
-### 1. 執行備份腳本
+| 指令 | 說明 | 對應原指令 |
+| --- | --- | --- |
+| `update` | 系統全面更新 | `sudo apt update && upgrade...` |
+| `install <pkg>` | 安裝軟體 | `sudo apt install -y <pkg>` |
+| `p` | 切換到 AGV 專案 | `cd ~/agv_project` |
+| `d` | 切換到 Dotfiles | `cd ~/dotfiles` |
+| `st` / `gs` | Git Status | `git status` |
+| `lg` | Git Log (圖形化) | `git log --graph...` |
+| `ls` | 列出檔案 (美化版) | `lsd` |
+| `cat` | 查看檔案 (高亮版) | `batcat` |
+
+---
+
+## 📂 目錄結構
+
+```
+dotfiles/
+├── install.sh          # 核心還原腳本
+├── gemini/             # Gemini CLI 設定與學習清單
+├── git/                # .gitconfig 設定
+├── zsh/                # .zshrc 與 p10k 設定
+├── vscode/             # VS Code 外掛清單與設定
+├── gnome/              # GNOME Dconf 備份
+├── system/             # 系統層級設定 (.bashrc 等)
+├── packages/           # APT 與 Snap 軟體清單
+└── scripts/            # 輔助腳本 (backup.sh, setup_repos.sh)
+```
+
+## 🔄 如何更新備份
+
+當您修改了系統設定後，執行備份腳本即可同步：
+
 ```bash
 ~/dotfiles/scripts/backup.sh
-```
-此腳本會自動掃描 APT/Snap 軟體、匯出 VS Code 外掛清單、更新 GNOME 桌面設定。
-
-### 2. 上傳到 GitHub
-```bash
 cd ~/dotfiles
 git add .
-git commit -m "Update settings: $(date +'%Y-%m-%d')"
+git commit -m "Update settings"
 git push
 ```
 
 ---
-
-## 🛠️ 系統功能清單
-
-| 功能 | 說明 |
-| --- | --- |
-| **軟體清單管理** | 自動備份並安裝 APT (360+) 與 Snap 軟體清單 |
-| **自動符號連結** | 使用 GNU Stow 自動管理 `.zshrc`, `.gitconfig`, `.profile` 等 |
-| **VS Code 全同步** | 自動還原 `settings.json`、快捷鍵以及所有擴充套件 |
-| **桌面環境優化** | 備份並還原 GNOME (Dconf) 設定（含佈景主題、捷徑、系統行為） |
-| **終端機美化** | 完美整合 Zsh 與 Powerlevel10k 配置 |
-| **模組化設計** | 檔案按功能分類 (git, zsh, vscode, system)，易於維護 |
-
----
-
-## ⚠️ 手動還原項目 (重要！)
-由於安全與技術限制，以下項目需 **手動處理**：
-
-1. **SSH 金鑰 (.ssh)**
-   - 基於安全理由，私鑰未被備份。請手動從安全路徑還原。
-2. **GPG 金鑰**
-   - 若有加密需求，請手動匯入您的 GPG Key。
-3. **瀏覽器登入狀態**
-   - 所有的 Session 與 Cookies 需手動重新登入。
-
----
-*Created by Gemini CLI Agent*
+*Created by Gemini CLI Agent for Benny Tsai*
