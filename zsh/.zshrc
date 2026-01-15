@@ -91,12 +91,7 @@ alias gc='git commit -m'
 alias gp='git push'
 alias gs='git status'
 
-# Force Fcitx5 Overriding
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-export SDL_IM_MODULE=fcitx
-export GLFW_IM_MODULE=fcitx
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
