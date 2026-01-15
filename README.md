@@ -25,14 +25,14 @@
   請在 Windows 打開 PowerShell (以管理員身分)，執行以下指令：
 
    1. 查看目前的 Distro 名稱：
-   1     wsl -l -v
+        wsl -l -v
       (假設您的名稱是 `Ubuntu`)
 
    2. 註銷 (刪除) 現有的系統：
-   1     wsl --unregister Ubuntu
+        wsl --unregister Ubuntu
 
    3. 重新安裝：
-   1     wsl --install -d Ubuntu
+        wsl --install -d Ubuntu
       安裝完成後，設定好您的使用者名稱 (benny) 和密碼。
 
   ---
