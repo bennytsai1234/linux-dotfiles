@@ -6,6 +6,7 @@
 [core]
         editor = code --wait
         autocrlf = input
+        quotepath = false
 [color]
         ui = auto
 [credential]
@@ -28,3 +29,12 @@
         c = commit
         p = push
         l = log --oneline
+        last = log -1 HEAD
+[diff]
+        tool = vscode
+[difftool "vscode"]
+        cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+        tool = vscode
+[mergetool "vscode"]
+        cmd = code --wait $MERGED

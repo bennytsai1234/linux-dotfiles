@@ -100,8 +100,7 @@ if [ -f "packages/apt-list.txt" ]; then
      echo
      if [[ $REPLY =~ ^[Yy]$ ]]; then
         # Architecture and Repos
-        echo "   正在設定架構與第三方庫..."
-        sudo dpkg --add-architecture i386
+        echo "   正在設定第三方庫..."
         chmod +x scripts/setup_repos.sh
         ./scripts/setup_repos.sh
 
@@ -137,9 +136,11 @@ if [ -f "vscode/extensions.txt" ] && command -v code &> /dev/null; then
 fi
 
 # ------------------------------------------------------------------
-# 4. GNOME 設定還原
+# 4. GNOME 設定還原 (WSL 跳過)
 # ------------------------------------------------------------------
-if [ -f "gnome/dconf-settings.ini" ] && command -v dconf &> /dev/null; then
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+    echo "🪟 偵測到 WSL 環境，跳過 GNOME 桌面設定還原。"
+elif [ -f "gnome/dconf-settings.ini" ] && command -v dconf &> /dev/null; then
     echo "🎨 步驟 4: 還原 GNOME 桌面設定..."
     read -p "❓ 確定要覆蓋目前的桌面設定 (Dconf) 嗎？ (y/N) " -n 1 -r
     echo

@@ -56,13 +56,18 @@ export VISUAL='code --wait'
 
 # Modern Unix Aliases
 alias cat='batcat'
-alias ls='lsd --icon never'
-alias l='lsd -l --icon never'
-alias la='lsd -a --icon never'
-alias lla='lsd -la --icon never'
-alias lt='lsd --tree --icon never'
+alias ls='lsd'
+alias l='lsd -l'
+alias la='lsd -a'
+alias lla='lsd -la'
+alias lt='lsd --tree'
 alias fd='fdfind'
 alias top='btop'
+
+# WSL Specific Integration
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  alias open="explorer.exe"
+fi
 
 # System Maintenance
 alias update='sudo apt update && sudo apt upgrade -y && sudo snap refresh && sudo apt autoremove -y'
@@ -91,7 +96,7 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export SDL_IM_MODULE=fcitx
-export GLFW_IM_MODULE=ibus
+export GLFW_IM_MODULE=fcitx
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
