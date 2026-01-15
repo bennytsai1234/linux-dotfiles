@@ -35,12 +35,22 @@ fi
 # ------------------------------------------------------------------
 echo "🐚 步驟 0.5: 準備 Zsh 環境..."
 
+# --- 新增這部分：確保先安裝 zsh ---
+if ! command -v zsh &> /dev/null; then
+    echo "    - 系統未偵測到 Zsh，正在安裝..."
+    sudo apt update && sudo apt install -y zsh
+fi
+
 # 安裝 Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "   - 安裝 Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    echo "    - 安裝 Oh My Zsh..."
+    # 注意：這裡加上 CHSH=no 避免安裝過程中斷腳本詢問密碼切換 Shell
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+    
+    # 手動將預設 Shell 改為 zsh (如果需要)
+    sudo chsh -s $(which zsh) $USER
 else
-    echo "   - Oh My Zsh 已安裝，跳過。"
+    echo "    - Oh My Zsh 已安裝，跳過。"
 fi
 
 # 安裝 Powerlevel10k
