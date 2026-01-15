@@ -1,7 +1,6 @@
 alsa-base
 alsa-utils
 anacron
-antigravity
 apport-gtk
 appstream
 apt-config-icons-hidpi
@@ -330,7 +329,6 @@ usb-creator-gtk
 va-driver-all:i386
 vim
 vlc
-warp-terminal
 wget
 whoopsie
 wireless-tools

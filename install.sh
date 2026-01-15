@@ -7,13 +7,39 @@ cd "$DOTFILES_DIR"
 echo "🚀 開始執行 God Mode 還原程序..."
 
 # ------------------------------------------------------------------
+# 0. 系統最佳化設定 (Sudo & Mirror)
+# ------------------------------------------------------------------
+echo "🛠️ 步驟 0: 系統最佳化設定..."
+
+# Sudo 免密碼
+if [ ! -f "/etc/sudoers.d/$USER-nopasswd" ]; then
+    echo "   - 設定 $USER 免密碼 sudo..."
+    echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee "/etc/sudoers.d/$USER-nopasswd" > /dev/null
+    sudo chmod 0440 "/etc/sudoers.d/$USER-nopasswd"
+else
+    echo "   - Sudo 免密碼已設定，跳過。"
+fi
+
+# 台灣軟體源 (Mirror)
+if grep -q "archive.ubuntu.com" /etc/apt/sources.list.d/ubuntu.sources;
+ then
+    echo "   - 切換至台灣鏡像站 (tw.archive.ubuntu.com)..."
+    sudo sed -i 's|http://archive.ubuntu.com/ubuntu/|http://tw.archive.ubuntu.com/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources
+    sudo sed -i 's|http://security.ubuntu.com/ubuntu/|http://tw.archive.ubuntu.com/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources
+    sudo apt update
+else
+    echo "   - 軟體源已優化，跳過。"
+fi
+
+# ------------------------------------------------------------------
 # 1. 基礎連結 (Stow)
 # ------------------------------------------------------------------
 echo "🔗 步驟 1: 連結設定檔 (Stow)..."
-MODULES=("zsh" "git" "system" "vscode")
+MODULES=("zsh" "git" "system" "vscode" "gemini")
 
-# 檢查 vscode 目錄是否已準備好被 stow (需要先確保目標路徑結構存在)
+# 確保目標目錄存在
 mkdir -p "$HOME/.config/Code/User"
+mkdir -p "$HOME/.gemini"
 
 for module in "${MODULES[@]}"; do
     if [ -d "$module" ]; then
@@ -29,14 +55,17 @@ echo "📦 步驟 2: 檢查軟體安裝..."
 read -p "❓ 是否要開始安裝/更新 APT 與 Snap 軟體？這可能需要一段時間 (y/N) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+    # Architecture and Repos
+    echo "   正在設定架構與第三方庫..."
+    sudo dpkg --add-architecture i386
+    chmod +x scripts/setup_repos.sh
+    ./scripts/setup_repos.sh
+
     # APT
     if [ -f "packages/apt-list.txt" ]; then
         echo "   正在更新 APT 庫..."
         sudo apt update
         echo "   正在安裝 APT 套件..."
-        # xargs -a 读取文件并通过 apt install 安装
-        # 為了避免錯誤中斷，我們過濾掉可能的無效包名，或者允許失敗
-        # 這裡做一個簡單的迴圈或批量安裝
         sudo apt install -y $(cat packages/apt-list.txt | tr '\n' ' ') || echo "⚠️ 部分 APT 套件安裝失敗，請稍後手動檢查。"
     fi
 
